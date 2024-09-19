@@ -1,0 +1,20 @@
+
+public class PlayerCrouch : MonoBehaviour
+{
+    public float speed = 5f;                    // Normalna prędkość ruchu
+    public float crouchSpeed = 2.5f;            // Prędkość ruchu podczas kucania
+    public float crouchScale = 0.5f;            // Zmiana skali podczas kucania
+    private Vector3 originalScale;              // Zapis oryginalnej skali
+    private bool isCrouching = false;           // Czy gracz kuca
+
+    private Rigidbody2D rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        originalScale = transform.localScale;   // Zapisanie oryginalnej skali
+    }
+
+    void Update()
+    {
+ 
