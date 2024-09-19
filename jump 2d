@@ -1,0 +1,39 @@
+
+public class PlayerJump : MonoBehaviour
+{
+    public float speed = 6f;                // Szybkość ruchu poziomego
+    public float jumpForce = 10f;           // Siła skoku
+    public Transform groundCheck;           // Punkt sprawdzający czy gracz jest na ziemi
+    public float groundCheckRadius = 0.2f;  // Promień dla raycastu
+    public LayerMask groundLayer;           // Warstwa gruntu
+    private bool isGrounded;                // Czy gracz stoi na ziemi
+    private Rigidbody2D rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        // Sprawdzenie, czy gracz dotyka ziemi (używamy kołowego raycastu)
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        // Ruch poziomy gracza
+        float moveX = Input.GetAxisRaw("Horizontal");
+        rb.velocity = new Vector2(moveX * speed, rb.velocity.y);
+
+        // Skakanie - tylko, gdy gracz jest na ziemi
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
+    }
+
+    // Wizualizacja promienia sprawdzania ziemi w edytorze Unity
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+}
