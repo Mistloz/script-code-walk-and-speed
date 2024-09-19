@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    public float speed = 5f;            // Szybkość poruszania się
+    public Rigidbody2D rb;              // Komponent Rigidbody2D
+    private Vector2 movement;           // Kierunek ruchu
+
+    void Update()
+    {
+        // Odczytywanie wejścia gracza
+        float moveX = Input.GetAxisRaw("Horizontal"); // Lewo/Prawo
+        float moveY = Input.GetAxisRaw("Vertical");   // Góra/Dół
+
+        // Ustawiamy kierunek ruchu
+        movement = new Vector2(moveX, moveY).normalized;
+    }
+
+    void FixedUpdate()
+    {
+        // Przesuwamy gracza za pomocą Rigidbody2D
+        rb.velocity = movement * speed;
+    }
